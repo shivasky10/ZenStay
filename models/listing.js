@@ -7,11 +7,10 @@ const ListingSchema = new schema({
         required : true,
     },
     description : String,
-    image : {
-        type : String,
-        default : "https://unsplash.com/photos/city-skyline-illuminated-at-dusk-Gb4pnnlVRxk",
-        set : (v)=> v==""? "https://unsplash.com/photos/city-skyline-illuminated-at-dusk-Gb4pnnlVRxk":v, 
-    },
+    image: {
+    filename: String,
+    url: String
+  },
     price : Number,
     location : String,
     country : String,
