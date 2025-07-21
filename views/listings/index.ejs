@@ -4,9 +4,21 @@
     <!-- <form method="GET" action="/listings/new">
         <button>create new Listing</button>
     </form> -->
-    <ul>
-        <%for(let listing of allListings){%>
-            <li><a href="/listing/<%=listing._id%>"><%= listing.title%></a></li>
-        <%}%>
-    </ul>
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1">
+  <%for(let listing of allListings){%>
+    <a href="/listing/<%=listing._id%> " class="card-link">
+<div class="card col" >
+  <img src="<%=listing.image.url%>" class="card-img-top" alt="listing" style="height: 20rem";>
+  <div class="card-img-overlay"></div>
+  <div class="card-body">
+    <p class="card-text"><b><%=listing.title%></b> <br> &#x20B9; <%=listing.price%>/ Night</p>
+  </div>
+</div></a>
+ <%}%>
+ </div>
+    <!-- <ul>
+        <for(let listing of allListings){%>
+            <li><a href="/listing/%=listing._id%>"%= listing.title%></a></li>
+        
+    </ul> -->
 </body>
