@@ -34,7 +34,7 @@ ZenStay is a full-stack web app that lets users browse rental properties and mak
 ### Prerequisites
 
 - [Node.js (v14+)](https://nodejs.org/)  
-- [MongoDB](https://www.mongodb.com/) (local or Atlas)
+- [MongoDB](https://www.mongodb.com/)
 
 ### Installation
 
