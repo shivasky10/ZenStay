@@ -4,6 +4,8 @@ const mongoose =require("mongoose");
 const path = require("path");
 const methodOverride=require("method-override");
 const ejsmate=require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 
 app.set("view engine","ejs");
@@ -39,11 +41,15 @@ app.get("/listings/new", async(req,res)=>{
 })
 
 //create route
-app.post("/listings", async (req,res)=>{
+app.post("/listings", wrapAsync(async (req,res,next)=>{
+    if(!req.body.listing){
+        throw new ExpressError(400,"send valid data");
+    }
     const newlisting = new Listing(req.body.listing);
     await newlisting.save();
     res.redirect("/listings");
-})
+    
+    }));
 
 
 
@@ -76,6 +82,9 @@ app.delete("/listings/:id",async (req,res)=>{
     res.redirect("/listings");
 });
 
+app.get("/",(req,res)=>{
+    res.send("iam root");
+})
 
 // app.get("/testListing",async (req,res)=>{
 //     let sampleListing = new Listing({
@@ -92,10 +101,19 @@ app.delete("/listings/:id",async (req,res)=>{
     
 // });
 
+// middleware 
 
-app.get("/",(req,res)=>{
-    res.send("iam root");
-})
+app.use((req,res,next)=>{
+    next(new ExpressError(404,"Page not found!"));
+});
+
+app.use((err,req,res,next)=>{
+    let{status,message}=err;
+    res.render("error.ejs",{message})
+    // res.status(status).send(message);
+});
+
+
 
 app.listen(8080,()=>{
     console.log("listening on 8080");
