@@ -7,6 +7,8 @@ const ejsmate=require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema} = require("./schema.js");
+const Listing = require("./models/listing.js");
+const Review = require("./models/review.js");
 
 
 app.set("view engine","ejs");
@@ -18,7 +20,7 @@ app.use(express.static(path.join(__dirname,"public")));
 
 const mongourl="mongodb://127.0.0.1:27017/zenstay";
 
-const Listing = require("./models/listing.js");
+
 
 async function main(){
     await mongoose.connect(mongourl);
@@ -94,6 +96,21 @@ app.delete("/listings/:id",async (req,res)=>{
 app.get("/",(req,res)=>{
     res.send("iam root");
 })
+
+// Reviews
+app.post("/listings/:id/reviews",async(req,res)=>{
+    let listing =await Listing.findById(req.params.id);
+    let newReview= new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await listing.save();
+    await  newReview.save();
+    console.log("new review saved")
+    res.redirect(`/listing/${listing.id}`);
+});
+
+
+
+
 
 // app.get("/testListing",async (req,res)=>{
 //     let sampleListing = new Listing({
