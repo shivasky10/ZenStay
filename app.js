@@ -98,10 +98,29 @@ app.put("/listings/:id",validateListing, wrapAsync(async (req,res)=>{
 }));
 
 //delete route
-app.delete("/listings/:id", wrapAsync(async (req,res)=>{
-    let { id }=req.params;
-    let deleted = await Listing.findByIdAndDelete(id);
-    console.log(deleted);
+// app.delete("/listings/:id", wrapAsync(async (req,res)=>{
+//     let { id }=req.params;
+//     let deleted = await Listing.findByIdAndDelete(id);
+//     console.log(deleted);
+//     res.redirect("/listings");
+// }));
+
+// app.delete("/listings/:id", wrapAsync(async (req, res) => {
+//     let { id } = req.params;
+//     let deleted = await Listing.findOneAndDelete({ _id: id });
+//     console.log(deleted);
+//     res.redirect("/listings");
+// }));
+app.delete("/listings/:id", wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+
+    if (listing && listing.reviews.length > 0) {
+        console.log("Manually deleting reviews:", listing.reviews);
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
+    }
+    await Listing.findByIdAndDelete(id);
+
     res.redirect("/listings");
 }));
 
