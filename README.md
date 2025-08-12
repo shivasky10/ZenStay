@@ -6,11 +6,11 @@ A vacation-rental booking web application.
 
 ## 📝 About
 
-ZenStay is a full-stack web application that lets users browse rental properties and make bookings. It demonstrates a classic MVC setup using Express and EJS, backed by a MongoDB database.
+ZenStay is a Full-Stack web application that lets users browse rental properties and make bookings. It demonstrates a classic MVC setup using Express and EJS, backed by a MongoDB database.
 
 ---
 
-## ✨ Features
+## ✨ All Features
   
 - **Browse Available Properties**  
 - **Create & Manage Bookings**  
