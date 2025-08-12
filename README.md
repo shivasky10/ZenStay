@@ -10,7 +10,7 @@ ZenStay is a Full-Stack web application that lets users browse rental properties
 
 ---
 
-## ✨ All Features
+## ✨ Features
   
 - **Browse Available Properties**  
 - **Create & Manage Bookings**  
