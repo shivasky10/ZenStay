@@ -5,10 +5,12 @@ const path = require("path");
 const methodOverride=require("method-override");
 const ejsmate=require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-
 const listings = require("./routes/listing.js");
 const reviews=require("./routes/review.js");
+const session=require("express-session");
+const flash=require("connect-flash");
 
+const mongourl="mongodb://127.0.0.1:27017/zenstay";
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname,"views"));
@@ -17,7 +19,27 @@ app.use(methodOverride("_method"));
 app.engine("ejs",ejsmate);
 app.use(express.static(path.join(__dirname,"public")));
 
-const mongourl="mongodb://127.0.0.1:27017/zenstay";
+
+const sessionOptions={
+    secret:"secretcode",
+    resave:false,
+    saveUninitialized:true,
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    next();
+});
+
+//routes path
+app.use("/listings", listings);
+
+app.use("/listings/:id/reviews", reviews);
+
+
 
 
 
@@ -33,10 +55,7 @@ main().then(()=>{
 
 
 
-//routes path
-app.use("/listings", listings);
 
-app.use("/listings/:id/reviews", reviews);
 
 
 
