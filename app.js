@@ -5,10 +5,16 @@ const path = require("path");
 const methodOverride=require("method-override");
 const ejsmate=require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-const listings = require("./routes/listing.js");
-const reviews=require("./routes/review.js");
 const session=require("express-session");
 const flash=require("connect-flash");
+const passport=require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+
+const listingsroute = require("./routes/listing.js");
+const reviewsroute=require("./routes/review.js");
+const userroute=require("./routes/user.js");
+
 
 const mongourl="mongodb://127.0.0.1:27017/zenstay";
 
@@ -29,16 +35,34 @@ const sessionOptions={
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
     next();
 });
 
-//routes path
-app.use("/listings", listings);
 
-app.use("/listings/:id/reviews", reviews);
+app.get("/demouser",async (req,res)=>{
+    let fakeuser = new User({
+        email : "demo@getMaxListeners.com",
+        username:"demouser1"
+
+    });
+    let registeduser=await User.register(fakeuser,"abcd");
+    res.send(registeduser);
+});
+
+//routes path
+app.use("/listings", listingsroute);
+app.use("/listings/:id/reviews", reviewsroute);
+app.use("/",userroute);
 
 
 
