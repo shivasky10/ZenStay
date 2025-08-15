@@ -49,15 +49,15 @@ app.use((req,res,next)=>{
 });
 
 
-app.get("/demouser",async (req,res)=>{
-    let fakeuser = new User({
-        email : "demo@getMaxListeners.com",
-        username:"demouser1"
+// app.get("/demouser",async (req,res)=>{
+//     let fakeuser = new User({
+//         email : "demo@getMaxListeners.com",
+//         username:"demouser1"
 
-    });
-    let registeduser=await User.register(fakeuser,"abcd");
-    res.send(registeduser);
-});
+//     });
+//     let registeduser=await User.register(fakeuser,"abcd");
+//     res.send(registeduser);
+// });
 
 //routes path
 app.use("/listings", listingsroute);
