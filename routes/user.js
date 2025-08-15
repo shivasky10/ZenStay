@@ -33,4 +33,20 @@ router.post("/login",passport.authenticate("local",{failureRedirect:"/login",fai
     req.flash("success","Welcome back to Zenstay");
     res.redirect("/listings");
 })
+
+router.get("/logout",(req,res,next)=>{
+    req.logOut((err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("success","You are logged out now");
+        res.redirect("/listings");
+    })
+})
+
+
+
+
+
+
 module.exports=router;
