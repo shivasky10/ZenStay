@@ -6,10 +6,6 @@ const { isLoggedIN, isOwner,validateListing } = require("../midddleware.js");
 
 
 
-
-
-
-
 //index route
 router.get("/",async(req,res)=>{
    let allListings = await Listing.find({});
@@ -36,7 +32,7 @@ router.post("/",isLoggedIN,validateListing,wrapAsync(async (req,res,next)=>{
 //show route
 router.get("/:id", async (req,res)=>{
     let { id }=req.params;
-    const listing = await Listing.findById(id).populate("reviews").populate("owner");
+    const listing = await Listing.findById(id).populate({path:"reviews",populate:{path:"author"}}).populate("owner");
     if(!listing){
         req.flash("error","listing doesnot exist");
         return res.redirect("/listings");
