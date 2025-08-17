@@ -7,25 +7,23 @@ const { isLoggedIN, isOwner,validateListing } = require("../midddleware.js");
 const listingControllers = require("../controllers/listings.js");
 
 
-//index route
-router.get("/",wrapAsync(listingControllers.index));
+//index and create post route
+router.route("/")
+.get(wrapAsync(listingControllers.index))
+.post(isLoggedIN,validateListing,wrapAsync(listingControllers.createListing));
+
 
 //newform route
 router.get("/new", isLoggedIN, listingControllers.renderNewForm);
 
-//creating  route
-router.post("/",isLoggedIN,validateListing,wrapAsync(listingControllers.createListing));
-
-//show route
-router.get("/:id", listingControllers.showListing );
+//show , updating ,destroy listing
+router.route("/:id")
+.get(listingControllers.showListing )
+.put(isLoggedIN,isOwner,validateListing, wrapAsync(listingControllers.updateListing))
+.delete(isLoggedIN,isOwner,wrapAsync(listingControllers.destroyListing));
 
 //editing the listing  route
 router.get("/:id/edit",isLoggedIN,isOwner,listingControllers.renderEditForm);
 
-//updating the listing  route
-router.put("/:id",isLoggedIN,isOwner,validateListing, wrapAsync(listingControllers.updateListing));
-
-//destroy listing
-router.delete("/:id", isLoggedIN,isOwner,wrapAsync(listingControllers.destroyListing));
 
 module.exports=router;
