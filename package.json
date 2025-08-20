@@ -18,6 +18,7 @@
   "homepage": "https://github.com/shivasky10/ZenStay#readme",
   "description": "",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.16.1",
     "cloudinary": "^1.37.2",
     "connect-flash": "^0.1.1",
     "dotenv": "^17.2.1",
