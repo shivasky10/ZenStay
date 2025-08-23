@@ -102,9 +102,9 @@ app.use((err,req,res,next)=>{
     // res.status(status).send(message);
 });
 
-app.get("/",(req,res)=>{
-    res.send("iam root");
-})
+// app.get("/",(req,res)=>{
+//     res.send("iam root");
+// })
 
 
 app.listen(8080,()=>{
