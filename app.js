@@ -20,7 +20,8 @@ const reviewsroute=require("./routes/review.js");
 const userroute=require("./routes/user.js");
 
 
-const mongourl="mongodb://127.0.0.1:27017/zenstay";
+// const mongourl="mongodb://127.0.0.1:27017/zenstay";
+const dbUrl = process.env.ATLASDB_URL;
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname,"views"));
@@ -74,13 +75,13 @@ app.use("/",userroute);
 
 
 async function main(){
-    await mongoose.connect(mongourl);
+    await mongoose.connect(dbUrl);
 }
 
 main().then(()=>{
     console.log("connected to db");
 }).catch((err)=>{
-    console.log("error");
+    console.log("error",err.message);
 })
 
 
