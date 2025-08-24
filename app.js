@@ -89,7 +89,9 @@ app.use("/listings", listingsroute);
 app.use("/listings/:id/reviews", reviewsroute);
 app.use("/",userroute);
 
-
+app.get("/",(req,res)=>{
+    res.redirect("/listings");
+})
 
 
 
@@ -122,9 +124,7 @@ app.use((err,req,res,next)=>{
     // res.status(status).send(message);
 });
 
-app.get("/",(req,res)=>{
-    res.redirect("/listings");
-})
+
 
 
 app.listen(8080,()=>{
