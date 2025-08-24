@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname,"public")));
 const store = MongoStore.create({
     mongoUrl:dbUrl,
     crypto:{
-        secret:"secretcode",
+        secret:process.env.SECRET,
     },
     touchAfter:24*3600,
 });
@@ -46,7 +46,7 @@ store.on("error",()=>{
 
 const sessionOptions={
     store,
-    secret:"secretcode",
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -122,9 +122,9 @@ app.use((err,req,res,next)=>{
     // res.status(status).send(message);
 });
 
-// app.get("/",(req,res)=>{
-//     res.send("iam root");
-// })
+app.get("/",(req,res)=>{
+    res.redirect("/listings");
+})
 
 
 app.listen(8080,()=>{
