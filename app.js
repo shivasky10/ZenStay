@@ -21,8 +21,9 @@ const reviewsroute=require("./routes/review.js");
 const userroute=require("./routes/user.js");
 
 
-// const mongourl="mongodb://127.0.0.1:27017/zenstay";
 const dbUrl = process.env.ATLASDB_URL;
+// const mongourl="mongodb://127.0.0.1:27017/zenstay";
+
 
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname,"views"));
@@ -39,7 +40,6 @@ const store = MongoStore.create({
     },
     touchAfter:24*3600,
 });
-
 store.on("error",()=>{
     console.log("ERROR IN SESSION STORE",err);
 });
@@ -74,15 +74,6 @@ app.use((req,res,next)=>{
 });
 
 
-// app.get("/demouser",async (req,res)=>{
-//     let fakeuser = new User({
-//         email : "demo@getMaxListeners.com",
-//         username:"demouser1"
-
-//     });
-//     let registeduser=await User.register(fakeuser,"abcd");
-//     res.send(registeduser);
-// });
 
 //routes path
 app.use("/listings", listingsroute);
@@ -92,7 +83,6 @@ app.use("/",userroute);
 app.get("/",(req,res)=>{
     res.redirect("/listings");
 })
-
 
 
 async function main(){
@@ -109,10 +99,7 @@ main().then(()=>{
 
 
 
-
-
-
-// middleware 
+// middleware ----------------------------
 
 app.use((req,res,next)=>{
     next(new ExpressError(404,"Page not found!"));
@@ -121,7 +108,7 @@ app.use((req,res,next)=>{
 app.use((err,req,res,next)=>{
     let{status,message}=err;
     res.render("error.ejs",{message})
-    // res.status(status).send(message);
+    
 });
 
 
